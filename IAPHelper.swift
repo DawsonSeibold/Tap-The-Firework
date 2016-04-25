@@ -169,5 +169,9 @@ extension IAPHelper: SKPaymentTransactionObserver {
         NSUserDefaults.standardUserDefaults().setBool(true, forKey: identifier)
         NSUserDefaults.standardUserDefaults().synchronize()
         NSNotificationCenter.defaultCenter().postNotificationName(IAPHelper.IAPHelperPurchaseNotification, object: identifier)
+        
+        
+        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "allowAds")
+      
     }
 }

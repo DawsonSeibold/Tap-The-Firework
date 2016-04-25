@@ -10,6 +10,10 @@ import UIKit
 import StoreKit
 
 class ProductCell: UITableViewCell {
+    //Outlets
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var priceOutlet: UILabel!
+    
     static let priceFormatter: NSNumberFormatter = {
         let formatter = NSNumberFormatter()
         
@@ -25,20 +29,20 @@ class ProductCell: UITableViewCell {
         didSet {
             guard let product = product else { return }
             
-            textLabel?.text = product.localizedTitle
+            titleLabel?.text = product.localizedTitle
             
             if iapProducts.store.isProductPurchased(product.productIdentifier) {
                 accessoryType = .Checkmark
                 accessoryView = nil
-                detailTextLabel?.text = ""
+                priceOutlet?.text = ""
             } else if IAPHelper.canMakePayments() {
                 ProductCell.priceFormatter.locale = product.priceLocale
-                detailTextLabel?.text = ProductCell.priceFormatter.stringFromNumber(product.price)
+                priceOutlet?.text = ProductCell.priceFormatter.stringFromNumber(product.price)
                 
                 accessoryType = .None
                 accessoryView = self.newBuyButton()
             } else {
-                detailTextLabel?.text = "Not available"
+                priceOutlet?.text = "Not available"
             }
         }
     }
@@ -46,8 +50,8 @@ class ProductCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        textLabel?.text = ""
-        detailTextLabel?.text = ""
+        titleLabel?.text = ""
+        priceOutlet?.text = ""
         accessoryView = nil
     }
     

@@ -16,6 +16,7 @@ class GameViewController: UIViewController, GKGameCenterControllerDelegate, ADBa
     //Outlets
     @IBOutlet var gameOverView: UIView!
     @IBOutlet var highScoreLabel: UILabel!
+    @IBOutlet var remainingRocketsLabel: UILabel!
     @IBOutlet var usersScoreLabel: UILabel!
     @IBOutlet var adBanner: ADBannerView!
     
@@ -41,7 +42,7 @@ class GameViewController: UIViewController, GKGameCenterControllerDelegate, ADBa
             
             /* Set the scale mode to scale to fit the window */
             testScene!.scaleMode = .AspectFill
-            
+            testScene?.size = self.view.frame.size
             testScene!.viewDelegate = self
             skView.presentScene(testScene)
       //  }
@@ -52,7 +53,7 @@ class GameViewController: UIViewController, GKGameCenterControllerDelegate, ADBa
             allowAds = newAllowedAds
         }
         if allowAds == false {
-            self.canDisplayBannerAds = true
+            //self.canDisplayBannerAds = true
             self.adBanner.delegate = self
             self.adBanner.hidden = true
         }else {
@@ -101,6 +102,9 @@ class GameViewController: UIViewController, GKGameCenterControllerDelegate, ADBa
         
         usersScoreLabel.text = "\(score!)"
         
+        let remainingRockets = testScene?.numOfRocketsOffScreen
+        remainingRocketsLabel.text = "\(remainingRockets!)"
+        
         var highscore = 0
         //To get the saved score
         if let savedScore: Int = NSUserDefaults.standardUserDefaults().objectForKey("HighestScore") as? Int {
@@ -110,9 +114,14 @@ class GameViewController: UIViewController, GKGameCenterControllerDelegate, ADBa
         highScoreLabel.text = "\(highscore)"
         gameOverView.hidden = false
         
+        if GKLocalPlayer.localPlayer().authenticated == true {
+            leaderBoardButtonOutlet.hidden = false
+        }else {
+            leaderBoardButtonOutlet.hidden = true
+            authenticateLocalPlayer()
+        }
         
-
-        // note that you don't need to go through a bunch of optionals to call presentViewController
+        
     }
 
     
@@ -130,7 +139,7 @@ class GameViewController: UIViewController, GKGameCenterControllerDelegate, ADBa
             
             // set the view from which to pop up
             _popoverPresentationController.sourceView = self.view;
-            _popoverPresentationController.sourceRect = CGRectMake((view!.bounds.maxX/2)-150, (view!.bounds.maxY/2)-75, 300,150)
+            _popoverPresentationController.sourceRect = CGRectMake((view!.bounds.maxX/2)-75, (view!.bounds.maxY/2)-150, 300,150)
             _popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirection.init(rawValue: 0);
             //_popoverPresentationController.delegate = self
             // present (id iPhone it is a modal automatic full screen)
@@ -149,6 +158,7 @@ class GameViewController: UIViewController, GKGameCenterControllerDelegate, ADBa
         testScene?.times = 1
         testScene?.countDownLabel.text = "2"
         testScene?.startGame()
+        gameOverView.hidden = true
         print("resumeTheGame")
     }
     
@@ -210,6 +220,26 @@ class GameViewController: UIViewController, GKGameCenterControllerDelegate, ADBa
     func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController)
     {
         gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
+        
+    }
+    
+    func authenticateLocalPlayer(){
+        
+        var localPlayer = GKLocalPlayer.localPlayer()
+        
+        localPlayer.authenticateHandler = {(viewController, error) -> Void in
+            
+            if (viewController != nil) {
+                self.presentViewController(viewController!, animated: true, completion: nil)
+            }
+                
+            else {
+                print((GKLocalPlayer.localPlayer().authenticated))
+                if GKLocalPlayer.localPlayer().authenticated == true {
+                    
+                }
+            }
+        }
         
     }
 

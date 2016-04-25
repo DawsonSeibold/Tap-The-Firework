@@ -13,7 +13,9 @@ class mainMenuViewController: UIViewController, GKGameCenterControllerDelegate {
 
     //Outlets
     @IBOutlet var taungtLabel: UILabel!
-    @IBOutlet var gameCenterButtonOutlet: UIButton!
+    @IBOutlet var gameCenterButtonOutlet: UIBarButtonItem!
+    @IBOutlet var startGameButtonOutlet: UIButton!
+    @IBOutlet var howToPlayButtonOutlet: UIButton!
     
     //Varuables
     
@@ -25,10 +27,30 @@ class mainMenuViewController: UIViewController, GKGameCenterControllerDelegate {
         if let savedScore: Int = NSUserDefaults.standardUserDefaults().objectForKey("HighestScore") as? Int {
             highscore = savedScore
         }
+        if highscore == 0 {
+         taungtLabel.text = "Good Luck!"
+        }else {
         taungtLabel.text = "Can you beat your high score of \(highscore)?"
-        
+        }
+            
         //Sign User In To Game Center
         authenticateLocalPlayer()
+        
+        startGameButtonOutlet.layer.cornerRadius = 76.5
+        howToPlayButtonOutlet.layer.cornerRadius = 76.5
+        startGameButtonOutlet.layer.borderColor = UIColor.blackColor().CGColor
+        howToPlayButtonOutlet.layer.borderColor = UIColor.blackColor().CGColor
+        startGameButtonOutlet.layer.borderWidth = 2
+        howToPlayButtonOutlet.layer.borderWidth = 2
+        
+        navigationController?.navigationBar.translucent = false
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.barTintColor = UIColor(red:0.239216, green:0.239216, blue:0.239216, alpha:1.0)
+        UINavigationBar.appearance().tintColor = UIColor.whiteColor()
+        navigationController!.navigationBar.barStyle = UIBarStyle.Black
+        navigationController!.navigationBar.tintColor = UIColor.whiteColor()
+        navigationController!.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.whiteColor()]
         
         // Do any additional setup after loading the view.
     }

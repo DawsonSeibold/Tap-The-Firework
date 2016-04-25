@@ -19,6 +19,9 @@ class pauseScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
+        resumeButtonOutlet.layer.cornerRadius = 10
+        quitButtonOutlet.layer.cornerRadius = 10
         // Do any additional setup after loading the view.
     }
 

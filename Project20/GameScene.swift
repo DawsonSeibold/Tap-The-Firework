@@ -23,13 +23,28 @@ class GameScene: SKScene {
 	var gameTimer: NSTimer!
     var countDownTimer: NSTimer!
 	var fireworks = [SKNode]()
+    var firework2Array = [SKNode]()
+    var emitterArray = [SKEmitterNode]()
+    var highscore = 0
+    var cleaningUp = false
+    
+    //UI Elements
     var scoreLabel = UILabel()
     let pauseButton = UIButton()
     var countDownLabel = UILabel()
     var explodeButton = UIButton()
     var background = SKSpriteNode()
     var testBox = UIView()
+    var highScoreLabel = UILabel()
+    
     var viewDelegate: GameSceneDelegate?
+    var numOfRocketsOffScreen = 6
+    var canLoose = false
+    
+    var remainingRocketsLabel = UILabel()
+    
+    //Arrays
+    var fireworkArray = [SKNode]()
 
 	let leftEdge = -22
 	let bottomEdge = -22
@@ -39,6 +54,15 @@ class GameScene: SKScene {
 		didSet {
 			// your code here
             scoreLabel.text = "Score: \(score)"
+            
+            if canLoose == true && score < 0 {
+                gameOver()
+            }
+            
+            if numOfRocketsOffScreen <= 0 {
+                gameOver()
+            }
+            
 		}
 	}
 
@@ -48,11 +72,16 @@ class GameScene: SKScene {
 
 		startGame()
         
-        print("X: \(((self.view?.frame.maxX)!-100)), Y: \(((self.view?.frame.maxY)!-100))")
+        
+        //To get the saved score
+        if let savedScore: Int = NSUserDefaults.standardUserDefaults().objectForKey("HighestScore") as? Int {
+            highscore = savedScore
+        }
 	}
     
     func startGame() {
         print("Starting Game")
+        cleaningUp = false
         countDownTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "displayCount", userInfo: nil, repeats: true)
     }
     var times = 0
@@ -84,54 +113,62 @@ class GameScene: SKScene {
     }
    
 	override func update(currentTime: NSTimeInterval) {
+        if cleaningUp == false {
 		for (index, firework) in fireworks.enumerate().reverse() {
 			if firework.position.y > 900 {
 				// this uses a position high above so that rockets can explode off screen
-				fireworks.removeAtIndex(index)
-				firework.removeFromParent()
-                    print("deleating fireworks, number of fireworks: \(fireworks.count)")
-			}
-            if firework.position.y < -15 {
-                if fireworks.count <= 5 {
-                    //print("You Lose!, number of fireworks: \(fireworks.count)")
+				let emitterNode = emitterArray[index] 
+                let fireworkNode = firework2Array[index]
+                emitterNode.removeFromParent()
+                emitterArray.removeAtIndex(index)
+                fireworkNode.removeFromParent()
+                firework2Array.removeAtIndex(index)
+                
+                fireworks.removeAtIndex(index)
+                firework.removeFromParent()
+                numOfRocketsOffScreen -= 1
+                if numOfRocketsOffScreen == 0 {
+                    //Game Over
+                    gameOver()
                 }
+                remainingRocketsLabel.text = "Rockets: \(numOfRocketsOffScreen)"
+                if canLoose == true {
+                    score -= 75
+                }
+                print("deleating fireworks, number of fireworks: \(fireworks.count)")
+			}
             }
+            
+            //Test if score is grater then high score
+            if score > highscore {
+                highScoreLabel.hidden = false
+            }
+
 		}
-        
+        /*
         self.enumerateChildNodesWithName("justCreated", usingBlock: {
             node, stop in
-            
-            
+ 
             if node.position.x > 50 && node.position.x < ((self.view?.frame.maxX)!-100) {
-                if node.position.y < 50 && node.position.y > ((self.view?.frame.maxY)!-100) {
+                if node.position.y > 50 && node.position.y < ((self.view?.frame.maxY)!-100) {
                     node.name = "onTheScreen"
-                    print("Good, X: \(node.position.x), Y: \(node.position.y)")
+                    print("justCreated")
                 }
             }
-            if node.position.x > 50 || node.position.x < ((self.view?.frame.maxX)!-100) || node.position.y < 50 || node.position.y > ((self.view?.frame.maxY)!-100){
-                
-            }
-            
-            if (self.intersectsNode(node)) {
-                //node.name = "onTheScreen"
-                //print("a")
-            }
-            
-            if node.position.x - node.frame.width/2 < 0 || node.position.x + node.frame.width/2 > self.size.width || node.position.y - node.frame.height/2 < 0 || node.position.y + node.frame.height/2 > self.size.height {
-               // node.name = "onTheScreen"
-               // print("t")
-            }
-            
         })
         
         self.enumerateChildNodesWithName("onTheScreen", usingBlock: {
             node, stop in
             
-            if node.position.x + node.frame.width/2 < 0 || node.position.x - node.frame.width/2 > self.size.width || node.position.y + node.frame.height/2 < 0 || node.position.y - node.frame.height/2 > self.size.height {
+            if node.position.x + node.frame.width/2 < 0 || node.position.x - node.frame.width/2 > self.size.width || node.position.y + node.frame.height/2 <= 0 || node.position.y - node.frame.height/2 >= self.size.height {
                 node.name = "BeenTested"
                 print("Firework Off the screen")
+                
+                //Check if all 5 are still on the screen
+                if self.fireworks.count >= 9 {
+                    print("You Lost")
+                }
             }
-            
         })
         
         if fireworks.count >= 8 {
@@ -169,6 +206,7 @@ class GameScene: SKScene {
                // print("All were distroyed")
             }
         }
+ */
         
         /*
         if fireworks.isEmpty == false {
@@ -198,16 +236,17 @@ class GameScene: SKScene {
         //Background
         background.removeFromParent()
         background = SKSpriteNode(imageNamed: "background")
+        //background = SKSpriteNode(imageNamed:  "skyBackground")
         background.position = CGPoint(x: 512, y: 384)
         background.blendMode = .Replace
         background.zPosition = -1
         addChild(background)
         
-        //Add button
+        //Add pause button
         pauseButton.frame = CGRectMake(((view?.frame.maxX)! - 60), 2, 50, 50)
         pauseButton.backgroundColor = UIColor.redColor()
         pauseButton.layer.cornerRadius = 15
-        //TODO: Add Pause Image to Button
+        pauseButton.setBackgroundImage(UIImage(named: "pauseButtonImage"), forState: UIControlState.Normal)
         //pauseButton.addTarget(self, action: "gameOver", forControlEvents: .TouchUpInside)
         pauseButton.addTarget(self, action: "pauseGame", forControlEvents: .TouchUpInside)
         pauseButton.enabled = false
@@ -236,6 +275,7 @@ class GameScene: SKScene {
         //Explode Button
         explodeButton.frame = CGRectMake(((view?.frame.maxX)! - 80), ((view?.frame.maxY)! - 90), 70, 70)
         explodeButton.backgroundColor = UIColor.blueColor()
+        explodeButton.setBackgroundImage(UIImage(named: "explosion"), forState: UIControlState.Normal)
         explodeButton.layer.cornerRadius = 10
         explodeButton.addTarget(self, action: "explodeFireworks", forControlEvents: .TouchUpInside)
         view?.addSubview(explodeButton)
@@ -244,21 +284,53 @@ class GameScene: SKScene {
         testBox.frame = CGRectMake(50, 50, (view?.frame.width)! - 100, (view?.frame.height)! - 100)
         testBox.layer.borderColor = UIColor.purpleColor().CGColor
         testBox.layer.borderWidth = 2
-        view?.addSubview(testBox)
+        //view?.addSubview(testBox)
+        
+        // Remaning Rockets that can go off the screen Label
+        remainingRocketsLabel.frame = CGRectMake(130, (view?.frame.maxY)! - 30, 120, 28)
+        remainingRocketsLabel.textColor = UIColor.whiteColor()
+        //countDownLabel.backgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.7)
+        remainingRocketsLabel.text = "Rockets: 6"
+        remainingRocketsLabel.layer.cornerRadius = 50
+        remainingRocketsLabel.textAlignment = .Center
+        view?.addSubview(remainingRocketsLabel)
+        
+        //New High Score Label
+        highScoreLabel.frame = CGRectMake(5,5,210,30)
+        highScoreLabel.textColor = UIColor.redColor()
+        highScoreLabel.backgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.7)
+        highScoreLabel.text = "New High Score!"
+        highScoreLabel.layer.cornerRadius = 10
+        highScoreLabel.textAlignment = .Center
+        highScoreLabel.font = UIFont(name: (countDownLabel.font?.fontName)! , size: 26)
+        highScoreLabel.hidden = true
+        view?.addSubview(highScoreLabel)
     
         
     }
 
-	func createFirework(xMovement xMovement: CGFloat, x: Int, y: Int) {
-		// 1
+    func createFirework(xMovement xMovement: CGFloat, x: Int, y: Int, followNodeName: String, direction: String) {
+		
+        //let followNode = SKNode()
+        //followNode.position = CGPoint(x: x, y: y)
+        //followNode.name = "\(followNodeName)"
+        
+        // 1
 		let node = SKNode()
 		node.position = CGPoint(x: x, y: y)
         node.name = "justCreated"
 
 		// 2
-		let firework = SKSpriteNode(imageNamed: "rocket")
+		//let firework = SKSpriteNode(imageNamed: "rocket")
+        let firework = SKSpriteNode(imageNamed: "firework")
 		firework.name = "firework"
+        firework2Array.append(firework)
 		node.addChild(firework)
+        
+        //let firework = SKSpriteNode(imageNamed: "firework")
+        //firework.position = CGPoint(x: x, y: y)
+        //firework.name = "firework"
+        
 
 		// 3
 		switch GKRandomSource.sharedRandom().nextIntWithUpperBound(3) {
@@ -286,15 +358,23 @@ class GameScene: SKScene {
 		// 5
 		let move = SKAction.followPath(path.CGPath, asOffset: true, orientToPath: true, speed: 200)
 		node.runAction(move)
+        //firework.runAction(move)
+        //followNode.runAction(move)
 
 		// 6
 		let emitter = SKEmitterNode(fileNamed: "fuse")!
 		emitter.position = CGPoint(x: 0, y: -22)
+        emitterArray.append(emitter)
 		node.addChild(emitter)
+        //firework.addChild(emitter)
 
 		// 7
 		fireworks.append(node)
+        //fireworks.append(firework)
 		addChild(node)
+        //addChild(firework)
+        
+        //fireworkArray.append(followNode)
 	}
 
 	func launchFireworks() {
@@ -303,35 +383,35 @@ class GameScene: SKScene {
 		switch GKRandomSource.sharedRandom().nextIntWithUpperBound(4) {
 		case 0:
 			// fire five, straight up
-			createFirework(xMovement: 0, x: 512, y: bottomEdge)
-			createFirework(xMovement: 0, x: 512 - 200, y: bottomEdge)
-			createFirework(xMovement: 0, x: 512 - 100, y: bottomEdge)
-			createFirework(xMovement: 0, x: 512 + 100, y: bottomEdge)
-			createFirework(xMovement: 0, x: 512 + 200, y: bottomEdge)
+			createFirework(xMovement: 0, x: 512, y: bottomEdge, followNodeName: "s1", direction: "up")
+			createFirework(xMovement: 0, x: 512 - 200, y: bottomEdge, followNodeName: "s2", direction: "up")
+			createFirework(xMovement: 0, x: 512 - 100, y: bottomEdge, followNodeName: "s3", direction: "up")
+			createFirework(xMovement: 0, x: 512 + 100, y: bottomEdge, followNodeName: "s4", direction: "up")
+			createFirework(xMovement: 0, x: 512 + 200, y: bottomEdge, followNodeName: "s5", direction: "up")
 
 		case 1:
 			// fire five, in a fan
-			createFirework(xMovement: 0, x: 512, y: bottomEdge)
-			createFirework(xMovement: -200, x: 512 - 200, y: bottomEdge)
-			createFirework(xMovement: -100, x: 512 - 100, y: bottomEdge)
-			createFirework(xMovement: 100, x: 512 + 100, y: bottomEdge)
-			createFirework(xMovement: 200, x: 512 + 200, y: bottomEdge)
+			createFirework(xMovement: 0, x: 512, y: bottomEdge, followNodeName: "f1", direction: "up")
+			createFirework(xMovement: -200, x: 512 - 200, y: bottomEdge, followNodeName: "f2", direction: "up")
+			createFirework(xMovement: -100, x: 512 - 100, y: bottomEdge, followNodeName: "f3", direction: "up")
+			createFirework(xMovement: 100, x: 512 + 100, y: bottomEdge, followNodeName: "f4", direction: "up")
+			createFirework(xMovement: 200, x: 512 + 200, y: bottomEdge, followNodeName: "f5", direction: "up")
 
 		case 2:
 			// fire five, from the left to the right
-			createFirework(xMovement: movementAmount, x: leftEdge, y: bottomEdge + 400)
-			createFirework(xMovement: movementAmount, x: leftEdge, y: bottomEdge + 300)
-			createFirework(xMovement: movementAmount, x: leftEdge, y: bottomEdge + 200)
-			createFirework(xMovement: movementAmount, x: leftEdge, y: bottomEdge + 100)
-			createFirework(xMovement: movementAmount, x: leftEdge, y: bottomEdge)
+			createFirework(xMovement: movementAmount, x: leftEdge, y: bottomEdge + 400, followNodeName: "l1", direction: "left")
+			createFirework(xMovement: movementAmount, x: leftEdge, y: bottomEdge + 300, followNodeName: "l2", direction: "left")
+			createFirework(xMovement: movementAmount, x: leftEdge, y: bottomEdge + 200, followNodeName: "l3", direction: "left")
+			createFirework(xMovement: movementAmount, x: leftEdge, y: bottomEdge + 100, followNodeName: "l4", direction: "left")
+			createFirework(xMovement: movementAmount, x: leftEdge, y: bottomEdge, followNodeName: "l5", direction: "left")
 
 		case 3:
 			// fire five, from the right to the left
-			createFirework(xMovement: -movementAmount, x: rightEdge, y: bottomEdge + 400)
-			createFirework(xMovement: -movementAmount, x: rightEdge, y: bottomEdge + 300)
-			createFirework(xMovement: -movementAmount, x: rightEdge, y: bottomEdge + 200)
-			createFirework(xMovement: -movementAmount, x: rightEdge, y: bottomEdge + 100)
-			createFirework(xMovement: -movementAmount, x: rightEdge, y: bottomEdge)
+			createFirework(xMovement: -movementAmount, x: rightEdge, y: bottomEdge + 400, followNodeName: "r1", direction: "right")
+			createFirework(xMovement: -movementAmount, x: rightEdge, y: bottomEdge + 300, followNodeName: "r2", direction: "right")
+			createFirework(xMovement: -movementAmount, x: rightEdge, y: bottomEdge + 200, followNodeName: "r3", direction: "right")
+			createFirework(xMovement: -movementAmount, x: rightEdge, y: bottomEdge + 100, followNodeName: "r4", direction: "right")
+			createFirework(xMovement: -movementAmount, x: rightEdge, y: bottomEdge, followNodeName: "r5", direction: "right")
 
 		default:
 			break
@@ -351,6 +431,8 @@ class GameScene: SKScene {
 				if sprite.name == "firework" {
 					for parent in fireworks {
 						let firework = parent.children[0] as! SKSpriteNode
+                     //   let firework = parent as! SKSpriteNode
+                    //let firework = sprite
 
 						if firework.name == "selected" && firework.color != sprite.color {
 							firework.name = "firework"
@@ -375,24 +457,37 @@ class GameScene: SKScene {
 		checkForTouches(touches)
 	}
 
-	func explodeFirework(firework: SKNode) {
+    func explodeFirework(firework: SKNode, index: Int) {
 		let emitter = SKEmitterNode(fileNamed: "explode")!
 		emitter.position = firework.position
         emitter.name = "explodingNode"
 		addChild(emitter)
 
+        let emitterNode = emitterArray[index]
+        let fireworkNode = firework2Array[index]
+        emitterNode.removeFromParent()
+        emitterArray.removeAtIndex(index)
+        fireworkNode.removeFromParent()
+        firework2Array.removeAtIndex(index)
+        
 		firework.removeFromParent()
+        
+        delay(0.6, closure: {
+            emitter.removeFromParent()
+        })
 	}
 
 	func explodeFireworks() {
+        canLoose = true
 		var numExploded = 0
 
 		for (index, fireworkGroup) in fireworks.enumerate().reverse() {
-			let firework = fireworkGroup.children[0] as! SKSpriteNode
+			 let firework = fireworkGroup.children[0] as! SKSpriteNode
+            //let firework = fireworkGroup as! SKSpriteNode
 
 			if firework.name == "selected" {
 				// destroy this firework!
-				explodeFirework(fireworkGroup)
+				explodeFirework(fireworkGroup, index: index)
 				fireworks.removeAtIndex(index)
 
 				numExploded += 1
@@ -419,6 +514,7 @@ class GameScene: SKScene {
     
     
     func gameOver() {
+        cleaningUp = true
         gameTimer.invalidate()
         for (index, firework) in fireworks.enumerate().reverse() {
                 fireworks.removeAtIndex(index)
@@ -454,6 +550,9 @@ class GameScene: SKScene {
             //Send to game center
             viewDelegate?.saveHighscore(score)
         }
+        highScoreLabel.hidden = true
+        remainingRocketsLabel.hidden = true
+        
         viewDelegate?.gameOverViewController(self)
     }
     
@@ -490,6 +589,10 @@ class GameScene: SKScene {
             //Send to game center
             viewDelegate?.saveHighscore(score)
         }
+        
+        testBox.hidden = true
+        highScoreLabel.hidden = true
+        remainingRocketsLabel.hidden = true
         
         viewDelegate?.showPopover()
 

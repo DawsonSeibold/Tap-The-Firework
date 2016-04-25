@@ -30,6 +30,13 @@
 		A907AC0E1CC71D9700C0AB3D /* inAppPurchaesTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A907AC0D1CC71D9600C0AB3D /* inAppPurchaesTableView.swift */; };
 		A907AC101CC71F6200C0AB3D /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A907AC0F1CC71F6200C0AB3D /* ProductCell.swift */; };
 		A998E9241CC4316E00DC585C /* pauseScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A998E9231CC4316E00DC585C /* pauseScreenViewController.swift */; };
+		A9C7B4F91CCAEAE0007B7E3A /* utilitys.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C7B4F81CCAEAE0007B7E3A /* utilitys.swift */; };
+		A9C7B4FB1CCAEB44007B7E3A /* SFSwiftNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C7B4FA1CCAEB44007B7E3A /* SFSwiftNotification.swift */; };
+		A9C7B5001CCC2EC1007B7E3A /* ContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C7B4FF1CCC2EBF007B7E3A /* ContentViewController.swift */; };
+		A9C7B5021CCC2F7E007B7E3A /* HowToPlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C7B5011CCC2F7E007B7E3A /* HowToPlayViewController.swift */; };
+		A9C7B5091CCC4208007B7E3A /* FXBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C7B5081CCC4208007B7E3A /* FXBlurView.m */; };
+		A9C7B50B1CCC4279007B7E3A /* moreInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9C7B50A1CCC4279007B7E3A /* moreInfoView.swift */; };
+		A9C7B50D1CCC4296007B7E3A /* moreInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9C7B50C1CCC4296007B7E3A /* moreInfoView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +65,15 @@
 		A907AC0D1CC71D9600C0AB3D /* inAppPurchaesTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = inAppPurchaesTableView.swift; sourceTree = "<group>"; };
 		A907AC0F1CC71F6200C0AB3D /* ProductCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
 		A998E9231CC4316E00DC585C /* pauseScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = pauseScreenViewController.swift; sourceTree = "<group>"; };
+		A9C7B4F81CCAEAE0007B7E3A /* utilitys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = utilitys.swift; sourceTree = "<group>"; };
+		A9C7B4FA1CCAEB44007B7E3A /* SFSwiftNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SFSwiftNotification.swift; sourceTree = "<group>"; };
+		A9C7B4FF1CCC2EBF007B7E3A /* ContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentViewController.swift; sourceTree = "<group>"; };
+		A9C7B5011CCC2F7E007B7E3A /* HowToPlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HowToPlayViewController.swift; sourceTree = "<group>"; };
+		A9C7B5061CCC4205007B7E3A /* Project20-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Project20-Bridging-Header.h"; sourceTree = "<group>"; };
+		A9C7B5071CCC4208007B7E3A /* FXBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXBlurView.h; sourceTree = "<group>"; };
+		A9C7B5081CCC4208007B7E3A /* FXBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXBlurView.m; sourceTree = "<group>"; };
+		A9C7B50A1CCC4279007B7E3A /* moreInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = moreInfoView.swift; path = ../moreInfoView.swift; sourceTree = "<group>"; };
+		A9C7B50C1CCC4296007B7E3A /* moreInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = moreInfoView.xib; path = ../moreInfoView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +95,12 @@
 				51A431281BAA17AF00AF415D /* Products */,
 				A907AC031CC4575600C0AB3D /* IAPManager.swift */,
 				A907AC091CC7165500C0AB3D /* IAPHelper.swift */,
+				A9C7B4F81CCAEAE0007B7E3A /* utilitys.swift */,
+				A9C7B4FA1CCAEB44007B7E3A /* SFSwiftNotification.swift */,
+				A9C7B5071CCC4208007B7E3A /* FXBlurView.h */,
+				A9C7B5081CCC4208007B7E3A /* FXBlurView.m */,
 				A907AC071CC714D300C0AB3D /* StoreKit.framework */,
+				A9C7B5061CCC4205007B7E3A /* Project20-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -95,15 +116,10 @@
 			isa = PBXGroup;
 			children = (
 				51A4312A1BAA17AF00AF415D /* AppDelegate.swift */,
-				51A4312C1BAA17AF00AF415D /* GameScene.sks */,
-				51A4312E1BAA17AF00AF415D /* GameScene.swift */,
-				51A431301BAA17AF00AF415D /* GameViewController.swift */,
-				A998E9231CC4316E00DC585C /* pauseScreenViewController.swift */,
 				A907AC011CC4445100C0AB3D /* mainMenuViewController.swift */,
-				A907AC051CC457AC00C0AB3D /* inAppPurchasViewController.swift */,
-				A907AC0B1CC71CB800C0AB3D /* iAPProducts.swift */,
-				A907AC0D1CC71D9600C0AB3D /* inAppPurchaesTableView.swift */,
-				A907AC0F1CC71F6200C0AB3D /* ProductCell.swift */,
+				A9C7B5051CCC2FB0007B7E3A /* Game Stuff */,
+				A9C7B5041CCC2F98007B7E3A /* In App Purchases */,
+				A9C7B5031CCC2F84007B7E3A /* How to Play  */,
 				51A431321BAA17AF00AF415D /* Main.storyboard */,
 				51A431351BAA17AF00AF415D /* Assets.xcassets */,
 				51A431371BAA17AF00AF415D /* LaunchScreen.storyboard */,
@@ -125,6 +141,39 @@
 				51A431471BAA181800AF415D /* spark.png */,
 			);
 			path = Content;
+			sourceTree = "<group>";
+		};
+		A9C7B5031CCC2F84007B7E3A /* How to Play  */ = {
+			isa = PBXGroup;
+			children = (
+				A9C7B4FF1CCC2EBF007B7E3A /* ContentViewController.swift */,
+				A9C7B5011CCC2F7E007B7E3A /* HowToPlayViewController.swift */,
+				A9C7B50A1CCC4279007B7E3A /* moreInfoView.swift */,
+				A9C7B50C1CCC4296007B7E3A /* moreInfoView.xib */,
+			);
+			name = "How to Play ";
+			sourceTree = "<group>";
+		};
+		A9C7B5041CCC2F98007B7E3A /* In App Purchases */ = {
+			isa = PBXGroup;
+			children = (
+				A907AC051CC457AC00C0AB3D /* inAppPurchasViewController.swift */,
+				A907AC0B1CC71CB800C0AB3D /* iAPProducts.swift */,
+				A907AC0D1CC71D9600C0AB3D /* inAppPurchaesTableView.swift */,
+				A907AC0F1CC71F6200C0AB3D /* ProductCell.swift */,
+			);
+			name = "In App Purchases";
+			sourceTree = "<group>";
+		};
+		A9C7B5051CCC2FB0007B7E3A /* Game Stuff */ = {
+			isa = PBXGroup;
+			children = (
+				51A4312C1BAA17AF00AF415D /* GameScene.sks */,
+				51A4312E1BAA17AF00AF415D /* GameScene.swift */,
+				51A431301BAA17AF00AF415D /* GameViewController.swift */,
+				A998E9231CC4316E00DC585C /* pauseScreenViewController.swift */,
+			);
+			name = "Game Stuff";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -153,6 +202,7 @@
 		51A4311F1BAA17AF00AF415D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Paul Hudson";
 				TargetAttributes = {
@@ -201,6 +251,7 @@
 				51A431361BAA17AF00AF415D /* Assets.xcassets in Resources */,
 				51A431491BAA181800AF415D /* background@2x.png in Resources */,
 				51A431341BAA17AF00AF415D /* Main.storyboard in Resources */,
+				A9C7B50D1CCC4296007B7E3A /* moreInfoView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,13 +266,19 @@
 				A907AC101CC71F6200C0AB3D /* ProductCell.swift in Sources */,
 				A907AC041CC4575600C0AB3D /* IAPManager.swift in Sources */,
 				A907AC0C1CC71CB800C0AB3D /* iAPProducts.swift in Sources */,
+				A9C7B4F91CCAEAE0007B7E3A /* utilitys.swift in Sources */,
+				A9C7B5091CCC4208007B7E3A /* FXBlurView.m in Sources */,
 				51A4312F1BAA17AF00AF415D /* GameScene.swift in Sources */,
+				A9C7B50B1CCC4279007B7E3A /* moreInfoView.swift in Sources */,
+				A9C7B5001CCC2EC1007B7E3A /* ContentViewController.swift in Sources */,
 				51A431311BAA17AF00AF415D /* GameViewController.swift in Sources */,
 				A907AC0E1CC71D9700C0AB3D /* inAppPurchaesTableView.swift in Sources */,
 				A907AC0A1CC7165500C0AB3D /* IAPHelper.swift in Sources */,
 				51A4312B1BAA17AF00AF415D /* AppDelegate.swift in Sources */,
 				A998E9241CC4316E00DC585C /* pauseScreenViewController.swift in Sources */,
+				A9C7B4FB1CCAEB44007B7E3A /* SFSwiftNotification.swift in Sources */,
 				A907AC021CC4445100C0AB3D /* mainMenuViewController.swift in Sources */,
+				A9C7B5021CCC2F7E007B7E3A /* HowToPlayViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,12 +391,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Project20/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smileappdevelopment.fireworkGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Project20-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -348,12 +408,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Project20/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smileappdevelopment.fireworkGame;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Project20-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

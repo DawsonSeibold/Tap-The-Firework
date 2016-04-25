@@ -121,6 +121,8 @@ extension MasterViewController {
             iapProducts.store.buyProduct(product)
         }
         
+        cell.backgroundColor = UIColor(red:0.192157, green:0.192157, blue:0.192157, alpha:1.0)
+        
         return cell
     }
 }
